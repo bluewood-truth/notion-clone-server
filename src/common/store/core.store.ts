@@ -8,20 +8,20 @@ export class CoreStore<T extends { id: string }> {
     this.setStore([]);
   }
 
-  protected getStore() {
+  protected async getStore() {
     return this.store;
   }
 
-  protected setStore(data: T[]) {
+  protected async setStore(data: T[]) {
     this.store = Object.freeze(data);
   }
 
-  getAll() {
+  async getAll() {
     return this.getStore();
   }
 
-  findById(id: string) {
-    const toFind = this.getAll().find((data) => data.id === id);
+  async findById(id: string) {
+    const toFind = (await this.getAll()).find((data) => data.id === id);
     if (!toFind) {
       throw new NotFoundException(`Cannot found Notion with id: ${id}`);
     }
@@ -29,17 +29,17 @@ export class CoreStore<T extends { id: string }> {
     return toFind;
   }
 
-  create(data: T) {
-    this.setStore([...this.getAll(), data]);
+  async create(data: T) {
+    await this.setStore([...(await this.getAll()), data]);
   }
 
-  remove(id: string) {
-    this.findById(id);
-    this.setStore(this.getAll().filter((data) => data.id !== id));
+  async remove(id: string) {
+    await this.findById(id);
+    await this.setStore((await this.getAll()).filter((data) => data.id !== id));
   }
 
-  update(data: T) {
-    this.remove(data.id);
-    this.create(data);
+  async update(data: T) {
+    await this.remove(data.id);
+    await this.create(data);
   }
 }

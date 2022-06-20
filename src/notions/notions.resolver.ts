@@ -7,22 +7,26 @@ export class NotionsResolver {
   constructor(private readonly notionsService: NotionsService) {}
 
   @Query((returns) => [Notion])
-  allNotions(): Notion[] {
+  allNotions(): Promise<Notion[]> {
     return this.notionsService.getAllNotions();
   }
 
   @Query((returns) => Notion)
-  notion(@Args('id', { type: () => String }) id: string): Notion {
+  notion(@Args('id', { type: () => String }) id: string): Promise<Notion> {
     return this.notionsService.getNotion(id);
   }
 
   @Mutation((returns) => Notion)
-  createNotion(@Args('owner', { type: () => String }) owner: string): Notion {
+  createNotion(
+    @Args('owner', { type: () => String }) owner: string,
+  ): Promise<Notion> {
     return this.notionsService.createNotion(owner);
   }
 
   @Mutation((returns) => Notion)
-  deleteNotion(@Args('id', { type: () => String }) id: string): Notion {
+  deleteNotion(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Notion> {
     return this.notionsService.deleteNotion(id);
   }
 

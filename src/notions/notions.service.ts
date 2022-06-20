@@ -7,39 +7,38 @@ import { v4 as uuidv4 } from 'uuid';
 export class NotionsService {
   constructor(private readonly store: NotionsStore) {}
 
-  getAllNotions(): Notion[] {
-    return [...this.store.getAll()];
+  async getAllNotions(): Promise<Notion[]> {
+    return [...(await this.store.getAll())];
   }
 
-  getNotion(id: string): Notion {
+  async getNotion(id: string): Promise<Notion> {
     try {
-      const notion = this.store.findById(id);
-      return notion;
+      return this.store.findById(id);
     } catch (e) {
       console.error(e);
     }
   }
 
-  createNotion(owner: string): Notion {
+  async createNotion(owner: string): Promise<Notion> {
     const newNotion: Notion = {
       owner,
       id: uuidv4(),
       title: `${owner}의 Notion`,
     };
 
-    this.store.create(newNotion);
+    await this.store.create(newNotion);
     return newNotion;
   }
 
-  deleteNotion(id: string): Notion {
+  async deleteNotion(id: string): Promise<Notion> {
     const notion = this.getNotion(id);
-    this.store.remove(id);
+    await this.store.remove(id);
     return notion;
   }
 
-  editNotionTitle(id: string, title: string): Notion {
-    const editedNotion = { ...this.getNotion(id), title };
-    this.store.update(editedNotion);
+  async editNotionTitle(id: string, title: string): Promise<Notion> {
+    const editedNotion = { ...(await this.getNotion(id)), title };
+    await this.store.update(editedNotion);
     return editedNotion;
   }
 }

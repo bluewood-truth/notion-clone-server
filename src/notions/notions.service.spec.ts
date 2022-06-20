@@ -19,30 +19,30 @@ describe('NotionsService', () => {
   });
 
   describe('getAllNotions', () => {
-    it('should return an array', () => {
-      const result = service.getAllNotions();
+    it('should return an array', async () => {
+      const result = await service.getAllNotions();
       expect(result).toBeInstanceOf(Array);
     });
   });
 
   describe('createNotion', () => {
-    it('should create a notion', () => {
-      const beforeCreate = service.getAllNotions().length;
-      service.createNotion('testOwner');
-      const afterCreate = service.getAllNotions().length;
-      expect(afterCreate).toBeGreaterThan(beforeCreate);
+    it('should create a notion', async () => {
+      const beforeCreate = await service.getAllNotions();
+      await service.createNotion('testOwner');
+      const afterCreate = await service.getAllNotions();
+      expect(afterCreate.length).toBeGreaterThan(beforeCreate.length);
     });
   });
 
   describe('getNotion', () => {
-    it('should get a notion', () => {
-      const { id } = service.createNotion('testOwner');
-      const notion = service.getNotion(id);
-      expect(notion.id).toBe(id);
+    it('should get a notion', async () => {
+      const created = await service.createNotion('testOwner');
+      const notion = await service.getNotion(created.id);
+      expect(notion.id).toBe(created.id);
     });
-    it('should throw a NotFoundException', () => {
+    it('should throw a NotFoundException', async () => {
       try {
-        service.getNotion('invaild-id');
+        await service.getNotion('invaild-id');
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
@@ -50,16 +50,16 @@ describe('NotionsService', () => {
   });
 
   describe('deleteNotion', () => {
-    it('should delete a notion', () => {
-      const created = service.createNotion('testOwner');
-      const beforeDelete = service.getAllNotions().length;
-      service.deleteNotion(created.id);
-      const afterDelete = service.getAllNotions().length;
-      expect(afterDelete).toBeLessThan(beforeDelete);
+    it('should delete a notion', async () => {
+      const created = await service.createNotion('testOwner');
+      const beforeDelete = await service.getAllNotions();
+      await service.deleteNotion(created.id);
+      const afterDelete = await service.getAllNotions();
+      expect(afterDelete.length).toBeLessThan(beforeDelete.length);
     });
-    it('should throw a NotFoundException', () => {
+    it('should throw a NotFoundException', async () => {
       try {
-        service.deleteNotion('invaild-id');
+        await service.deleteNotion('invaild-id');
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
@@ -67,11 +67,11 @@ describe('NotionsService', () => {
   });
 
   describe('editNotionTitle', () => {
-    it('should edit a title of a notion', () => {
+    it('should edit a title of a notion', async () => {
       const newTitle = 'Edited title';
-      const { id } = service.createNotion('testOwner');
-      service.editNotionTitle(id, newTitle);
-      const edited = service.getNotion(id);
+      const created = await service.createNotion('testOwner');
+      await service.editNotionTitle(created.id, newTitle);
+      const edited = await service.getNotion(created.id);
       expect(edited.title).toBe(newTitle);
     });
   });
