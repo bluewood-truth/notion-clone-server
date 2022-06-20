@@ -1,43 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Notion } from './entities/notion.entities';
+import { NotionsStore } from './store/notions.store';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class NotionsService {
-  private notions: Notion[] = [];
+  constructor(private readonly store: NotionsStore) {}
 
   getAllNotions(): Notion[] {
-    return this.notions;
+    return [...this.store.getAll()];
   }
 
   getNotion(id: string): Notion {
-    const notion = this.notions.find((notion) => notion.id === id);
-    if (!notion) {
-      throw new NotFoundException(`Cannot found Notion with id: ${id}`);
+    try {
+      const notion = this.store.findById(id);
+      return notion;
+    } catch (e) {
+      console.error(e);
     }
-
-    return notion;
   }
 
   createNotion(owner: string): Notion {
     const newNotion: Notion = {
       owner,
-      id: String(Date.now()),
+      id: uuidv4(),
       title: `${owner}의 Notion`,
     };
 
-    this.notions.push(newNotion);
+    this.store.create(newNotion);
     return newNotion;
   }
 
   deleteNotion(id: string): Notion {
     const notion = this.getNotion(id);
-    this.notions = this.notions.filter((notion) => notion.id !== id);
+    this.store.remove(id);
     return notion;
   }
 
   editNotionTitle(id: string, title: string): Notion {
-    const notion = this.getNotion(id);
-    notion.title = title;
-    return notion;
+    const editedNotion = { ...this.getNotion(id), title };
+    this.store.update(editedNotion);
+    return editedNotion;
   }
 }
