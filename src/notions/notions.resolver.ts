@@ -1,4 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CreateNotionInput, CreateNotionOutput } from './dto/create-notion.dto';
+import { DeleteNotionInput, DeleteNotionOutput } from './dto/delete-notion.dto';
+import { EditNotionInput, EditNotionOutput } from './dto/edit-notion.dto';
+import { GetNotionInput, GetNotionOutput } from './dto/get-notion.dto';
+import { GetNotionsOutput } from './dto/get-notions.dto';
 import { Notion } from './entities/notion.entities';
 import { NotionsService } from './notions.service';
 
@@ -6,35 +11,36 @@ import { NotionsService } from './notions.service';
 export class NotionsResolver {
   constructor(private readonly notionsService: NotionsService) {}
 
-  @Query((returns) => [Notion])
-  allNotions(): Promise<Notion[]> {
+  @Query((returns) => GetNotionsOutput)
+  getAllNotions(): Promise<GetNotionsOutput> {
     return this.notionsService.getAllNotions();
   }
 
-  @Query((returns) => Notion)
-  notion(@Args('id', { type: () => String }) id: string): Promise<Notion> {
-    return this.notionsService.getNotion(id);
+  @Query((returns) => GetNotionOutput)
+  getNotion(
+    @Args('input', { type: () => GetNotionInput }) input: GetNotionInput,
+  ): Promise<GetNotionOutput> {
+    return this.notionsService.getNotion(input);
   }
 
-  @Mutation((returns) => Notion)
+  @Mutation((returns) => CreateNotionOutput)
   createNotion(
-    @Args('owner', { type: () => String }) owner: string,
-  ): Promise<Notion> {
-    return this.notionsService.createNotion(owner);
+    @Args('input', { type: () => CreateNotionInput }) input: CreateNotionInput,
+  ): Promise<CreateNotionOutput> {
+    return this.notionsService.createNotion(input);
   }
 
-  @Mutation((returns) => Notion)
+  @Mutation((returns) => DeleteNotionOutput)
   deleteNotion(
-    @Args('id', { type: () => String }) id: string,
-  ): Promise<Notion> {
-    return this.notionsService.deleteNotion(id);
+    @Args('input', { type: () => DeleteNotionInput }) input: DeleteNotionInput,
+  ): Promise<DeleteNotionOutput> {
+    return this.notionsService.deleteNotion(input);
   }
 
-  @Mutation((returns) => Notion)
-  editNotionTitle(
-    @Args('id', { type: () => String }) id: string,
-    @Args('title', { type: () => String }) title: string,
-  ) {
-    return this.notionsService.editNotionTitle(id, title);
+  @Mutation((returns) => EditNotionOutput)
+  editNotion(
+    @Args('input', { type: () => EditNotionInput }) input: EditNotionInput,
+  ): Promise<EditNotionOutput> {
+    return this.notionsService.editNotion(input);
   }
 }

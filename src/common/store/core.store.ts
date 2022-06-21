@@ -23,7 +23,7 @@ export class CoreStore<T extends { id: string }> {
   async findById(id: string) {
     const toFind = (await this.getAll()).find((data) => data.id === id);
     if (!toFind) {
-      throw new NotFoundException(`Cannot found Notion with id: ${id}`);
+      throw new NotFoundException();
     }
 
     return toFind;
