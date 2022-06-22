@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Notion } from './entities/notion.entities';
+import { Notion } from './entities/notion.entity';
 import { NotionsStore } from './store/notions.store';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateNotionInput, CreateNotionOutput } from './dto/create-notion.dto';

@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType, PartialType } from '@nestjs/graphql';
 import { CoreOutput } from 'src/common/dto/output.dto';
-import { Notion } from '../entities/notion.entities';
+import { Notion } from '../entities/notion.entity';
 import { CreateNotionInput } from './create-notion.dto';
 
 @InputType()

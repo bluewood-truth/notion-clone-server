@@ -4,7 +4,7 @@ import { DeleteNotionInput, DeleteNotionOutput } from './dto/delete-notion.dto';
 import { EditNotionInput, EditNotionOutput } from './dto/edit-notion.dto';
 import { GetNotionInput, GetNotionOutput } from './dto/get-notion.dto';
 import { GetNotionsOutput } from './dto/get-notions.dto';
-import { Notion } from './entities/notion.entities';
+import { Notion } from './entities/notion.entity';
 import { NotionsService } from './notions.service';
 
 @Resolver((of) => Notion)
