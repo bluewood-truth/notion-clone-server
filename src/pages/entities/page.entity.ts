@@ -1,8 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Page } from 'src/pages/entities/page.entity';
 
 @ObjectType()
-export class Notion {
+export class Page {
   @Field()
   id: string;
 
@@ -12,6 +11,9 @@ export class Notion {
   @Field()
   owner: string;
 
+  @Field((type) => Page, { nullable: true })
+  parent: Page;
+
   @Field((type) => [Page])
-  pages: Page[];
+  children: Page[];
 }

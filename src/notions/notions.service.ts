@@ -39,6 +39,7 @@ export class NotionsService {
         owner,
         id: uuidv4(),
         title: title || `${owner}의 Notion`,
+        pages: [],
       };
 
       await this.store.create(newNotion);
