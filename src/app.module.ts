@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { NotionsModule } from './notions/notions.module';
 import { PagesModule } from './pages/pages.module';
+import { BlocksModule } from './blocks/blocks.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PagesModule } from './pages/pages.module';
     }),
     NotionsModule,
     PagesModule,
+    BlocksModule,
   ],
   controllers: [],
   providers: [],

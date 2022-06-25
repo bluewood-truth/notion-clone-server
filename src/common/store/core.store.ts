@@ -20,8 +20,20 @@ export class CoreStore<T extends { id: string }> {
     return this.getStore();
   }
 
+  async find(
+    predicate: (value: T, index: number, obj: readonly T[]) => boolean,
+  ) {
+    return (await this.getAll()).find(predicate);
+  }
+
+  async findAll(
+    predicate: (value: T, index: number, array: readonly T[]) => boolean,
+  ) {
+    return (await this.getAll()).filter(predicate);
+  }
+
   async findById(id: string) {
-    const toFind = (await this.getAll()).find((data) => data.id === id);
+    const toFind = await this.find((data) => data.id === id);
     if (!toFind) {
       throw new NotFoundException();
     }
@@ -29,7 +41,7 @@ export class CoreStore<T extends { id: string }> {
     return toFind;
   }
 
-  async create(data: T) {
+  async add(data: T) {
     await this.setStore([...(await this.getAll()), data]);
   }
 
@@ -40,6 +52,6 @@ export class CoreStore<T extends { id: string }> {
 
   async update(data: T) {
     await this.remove(data.id);
-    await this.create(data);
+    await this.add(data);
   }
 }

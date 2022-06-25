@@ -1,8 +1,39 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  ID,
+  InputType,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { BlockProperties } from '../types/block-properties.obejct';
-import { BlockType } from '../types/block-type.enum';
 
+export enum BlockType {
+  notion,
+  page,
+  text,
+  to_do,
+  heading_1,
+  heading_2,
+  heading_3,
+  bulleted_list,
+  numbered_list,
+  toggle_list,
+  divider,
+}
+
+registerEnumType(BlockType, { name: 'BlockType' });
+
+@InputType('BlockPropertiesInputType', { isAbstract: true })
+@ObjectType()
+export class BlockProperties {
+  @Field({ nullable: true })
+  title?: string;
+
+  @Field({ nullable: true })
+  checked?: boolean;
+}
+
+@InputType('BlockInputType', { isAbstract: true })
 @ObjectType()
 export class Block extends CoreEntity {
   @Field((type) => ID)
