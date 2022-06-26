@@ -25,8 +25,8 @@ export class BlocksService {
   async createBlock(input: CreateBlockInput): Promise<CreateBlockOutput> {
     const newBlock: Block = {
       id: uuidv4(),
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       children: [],
       ...input,
     };
@@ -45,7 +45,7 @@ export class BlocksService {
     ...others
   }: EditBlockInput): Promise<EditBlockOutput> {
     const block = await this.store.find((block) => block.id === blockId);
-    const editedBlock = { ...block, ...others };
+    const editedBlock = { ...block, ...others, updatedAt: new Date() };
     await this.store.update(editedBlock);
     return { block: editedBlock };
   }
