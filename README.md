@@ -10,3 +10,5 @@ NestJS와 Apollo Server를 사용하여 GraphQL API를 제공하는 서버를 �
 - Apollo Server
 - GraphQL
 
+## Proces
+
