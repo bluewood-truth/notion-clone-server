@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 
+import { BlocksModule } from './blocks/blocks.module';
+
 @Module({
-  imports: [],
+  imports: [BlocksModule],
   controllers: [],
   providers: [],
 })
