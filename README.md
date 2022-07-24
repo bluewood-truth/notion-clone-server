@@ -1,14 +1,18 @@
 <h1 align="center">Notion Clone Coding - Server</h1>
 
-풀스택으로 Notion 웹 서비스의 클론 코딩을 진행합니다. 그 중 server-side 개발을 위한 repository입니다.
+노션 클론 코딩의 서버 사이드 개발을 위한 저장소입니다.
 
-NestJS와 Apollo Server를 사용하여 GraphQL API를 제공하는 서버를 구축하는 것을 목표로 합니다.
+노션은 사용자에 의한 CRUD가 가장 빈번하게 일어나는 서비스 중 하나로, 이를 맨땅에서부터 개발해나감으로써 다음과 같은 경험을 얻으려 합니다.
+
+- 온전한 서비스 하나를 풀스택으로 개발
+- 보안성과 확장성을 고려한 서버 사이드 개발
+- 빈번하게 일어나는 CRUD에 대한 클라이언트 사이드에서의 UX 최적화 (어떻게 "빠르게 보이게" 할 것인가?)
+
+서버 사이드는 Node.js 기반의 백엔드 프레임워크인 **NestJS**로 **REST API** 개발을 진행합니다. 클라이언트 사이드는 React 기반의 프론트엔드 프레임워크인 **Next.js**로 개발을 진행하며, 서버 사이드와의 통신을 위해 **axios**와 **React Query**를 사용합니다.
+
+<br />
 
 ## Built With
 
 - NestJS
-- Apollo Server
-- GraphQL
-
-## Proces
 
